@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>2 0 2 4 新年快乐</title>
+    <style>
+      body {
+        background-color: #000;
+      }
+      .center-text {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 4em;
+        color: #fff;
+        text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.3);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        font-size: 1em;
+        animation: fadeInOut 5s infinite;
+        font-family: "Courier New", Courier, monospace;
+      }
+      @keyframes fadeInOut {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      body,
+      canvas {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background: #000;
+      }
+      .center-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 5em;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        animation: colorChange 5s infinite;
+      }
+      @keyframes colorChange {
+        0% {
+          color: red;
+        }
+        20% {
+          color: orange;
+        }
+        40% {
+          color: #ff0;
+        }
+        60% {
+          color: green;
+        }
+        80% {
+          color: #00f;
+        }
+        100% {
+          color: purple;
+        }
+      }
+      .red {
+        color: red;
+        animation: colorChangeRed 5s infinite;
+      }
+      .orange {
+        color: orange;
+        animation: colorChangeOrange 5s infinite;
+      }
+      .yellow {
+        color: #ff0;
+        animation: colorChangeYellow 5s infinite;
+      }
+      .green {
+        color: green;
+        animation: colorChangeGreen 5s infinite;
+      }
+      @keyframes colorChangeRed {
+        0% {
+          color: red;
+        }
+        25% {
+          color: orange;
+        }
+        50% {
+          color: #ff0;
+        }
+        75% {
+          color: green;
+        }
+        100% {
+          color: #00f;
+        }
+      }
+      @keyframes colorChangeOrange {
+        0% {
+          color: orange;
+        }
+        25% {
+          color: #ff0;
+        }
+        50% {
+          color: green;
+        }
+        75% {
+          color: #00f;
+        }
+        100% {
+          color: purple;
+        }
+      }
+      @keyframes colorChangeYellow {
+        0% {
+          color: #ff0;
+        }
+        25% {
+          color: green;
+        }
+        50% {
+          color: #00f;
+        }
+        75% {
+          color: purple;
+        }
+        100% {
+          color: red;
+        }
+      }
+      @keyframes colorChangeGreen {
+        0% {
+          color: green;
+        }
+        25% {
+          color: #00f;
+        }
+        50% {
+          color: purple;
+        }
+        75% {
+          color: red;
+        }
+        100% {
+          color: orange;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div class="center-text">
+      <span class="red">2</span> <span class="orange">0</span>
+      <span class="yellow">2</span> <span class="green">4</span>
+    </div>
+    <div class="footer">Copyright 2023-2024 xiaozhu2007@github</div>
+    <script>
+      var fireworks = [];
+      function Firework(i, r, n, o) {
+        (this.x = i),
+          (this.y = r),
+          (this.vx = n ? (n - i) / 100 : 0),
+          (this.vy = o ? (o - r) / 100 : -5 * Math.random()),
+          (this.alpha = 1),
+          (this.color = "hsl(" + 360 * Math.random() + ", 100%, 50%)");
+      }
+      Firework.prototype.draw = function (i) {
+        i.beginPath(),
+          i.arc(this.x, this.y, 3, 0, 2 * Math.PI),
+          (i.fillStyle = this.color),
+          (i.globalAlpha = this.alpha),
+          i.fill();
+      };
+      var canvas = document.getElementById("canvas"),
+        ctx = canvas.getContext("2d");
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height), (ctx.globalAlpha = 1);
+        for (var i = 0; i < fireworks.length; i++)
+          (fireworks[i].x += fireworks[i].vx),
+            (fireworks[i].y += fireworks[i].vy),
+            (fireworks[i].vy += 0.01),
+            (fireworks[i].alpha -= 0.01),
+            fireworks[i].alpha <= 0
+              ? fireworks.splice(i, 1)
+              : fireworks[i].draw(ctx);
+        requestAnimationFrame(loop);
+      }
+      (canvas.width = window.innerWidth),
+        (canvas.height = window.innerHeight),
+        (window.onmousemove = function (i) {
+          var r = new Firework(i.clientX, i.clientY, null, null);
+          fireworks.push(r);
+        }),
+        (window.onmouseout = function () {
+          var i = new Firework(
+            Math.random() * window.innerWidth,
+            window.innerHeight,
+            null,
+            null
+          );
+          fireworks.push(i);
+        }),
+        loop(),
+        setInterval(function () {
+          for (var i = 0; i < 5; i++) {
+            var r = new Firework(
+              Math.random() * window.innerWidth,
+              window.innerHeight,
+              null,
+              null
+            );
+            fireworks.push(r);
+          }
+        }, 500);
+    </script>
+  </body>
+</html>
+<!-- By xiaozhu2007@github | 2023-12-31 -->
