@@ -219,7 +219,7 @@
         }),
         loop(),
         setInterval(function () {
-          for (var i = 0; i < 5; i++) {
+          for (var i = 0; i < 3; i++) {
             var r = new Firework(
               Math.random() * window.innerWidth,
               window.innerHeight,
@@ -228,7 +228,7 @@
             );
             fireworks.push(r);
           }
-        }, 500);
+        }, 10);
     </script>
   </body>
 </html>
